@@ -28,7 +28,7 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(weekDay)[0],
         'value': totalSum,
       };
-    });
+    }).reversed.toList();
   }
 
   double get weekSumValue {
@@ -44,7 +44,7 @@ class Chart extends StatelessWidget {
     groupedTransactions;
     return Card(
       elevation: 6,
-      margin: const EdgeInsets.all(0),
+      margin: const EdgeInsets.all(15),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(

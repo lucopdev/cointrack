@@ -159,6 +159,12 @@ class ExpensesApp extends StatelessWidget {
             fontWeight: FontWeight.normal,
             color: Colors.black,
           ),
+          headlineSmall: const TextStyle(
+            fontFamily: 'Quicksand',
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
         ),
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(

@@ -38,35 +38,31 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (context, index) {
                 final transaction = transactions[index];
                 return Card(
-                  child: Row(children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
-                      )),
-                      padding: const EdgeInsets.all(8),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: FittedBox(
+                  elevation: 5,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      radius: 50,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: FittedBox(
                           child: Text(
-                        'R\$ ${transaction.value.toStringAsFixed(2)}',
-                        style: Theme.of(context).textTheme.labelLarge,
-                      )),
+                            'R\$${transaction.value}',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                        ),
+                      ),
                     ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            transaction.title,
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          Text(
-                            DateFormat.yMMMMd('pt_BR').format(transaction.date),
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ]),
-                  ]),
+                    title: Text(
+                      transaction.title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    subtitle: Text(
+                        DateFormat.yMMMMd('pt_BR').format(transaction.date),
+                        style: Theme.of(context).textTheme.bodyLarge),
+                  ),
                 );
               },
             ),
