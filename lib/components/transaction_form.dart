@@ -51,12 +51,30 @@ class _TransactionFormState extends State<TransactionForm> {
               ),
               controller: valueController,
             ),
-            TextButton(
-                onPressed: _submitForm,
-                child: Text(
-                  'Nova Transação',
-                  style: Theme.of(context).textTheme.labelLarge,
-                ))
+            FittedBox(
+              child: Row(
+                children: [
+                  const Text('Nenhuma data selecionada!'),
+                  TextButton(
+                    onPressed: () {},
+                    child: FittedBox(
+                        child: Text(
+                      'Selecionar Data',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    )),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              alignment: Alignment.bottomRight,
+              child: TextButton(
+                  onPressed: _submitForm,
+                  child: Text(
+                    'Adicionar',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  )),
+            )
           ],
         ),
       ),
