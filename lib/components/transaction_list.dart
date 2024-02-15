@@ -13,7 +13,7 @@ class TransactionList extends StatelessWidget {
       height: 550,
       child: transactions.isEmpty
           ? Container(
-              margin: const EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 10),
               child: Column(
                 children: [
                   Text(
@@ -24,7 +24,7 @@ class TransactionList extends StatelessWidget {
                       opacity: 0.5,
                       child: Container(
                         margin: const EdgeInsets.all(50),
-                        height: 350,
+                        height: 200,
                         child: Image.asset(
                           'assets/images/waiting.png',
                           fit: BoxFit.cover,
@@ -45,13 +45,14 @@ class TransactionList extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                         width: 2,
                       )),
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(8),
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      child: Text(
+                          horizontal: 10, vertical: 10),
+                      child: FittedBox(
+                          child: Text(
                         'R\$ ${transaction.value.toStringAsFixed(2)}',
                         style: Theme.of(context).textTheme.labelLarge,
-                      ),
+                      )),
                     ),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

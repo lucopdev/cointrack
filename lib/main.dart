@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:expenses/components/transaction_list.dart';
 import 'package:expenses/transaction.dart';
@@ -24,7 +25,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [];
+  final List<Transaction> _transactions = [
+    Transaction(
+      id: 't1',
+      title: 'Tenis',
+      value: 328.56,
+      date: DateTime.now().subtract(
+        const Duration(days: 3),
+      ),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Tenis',
+      value: 318.56,
+      date: DateTime.now().subtract(
+        const Duration(days: 2),
+      ),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'Tenis',
+      value: 348.56,
+      date: DateTime.now().subtract(
+        const Duration(days: 1),
+      ),
+    ),
+  ];
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((transaction) {
+      return transaction.date.isAfter(DateTime.now().subtract(
+        const Duration(days: 7),
+      ));
+    }).toList();
+  }
 
   void _addTransaction({required String title, required double value}) {
     final newTransaction = Transaction(
@@ -70,17 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-          SizedBox(
-            width: double.infinity,
-            child: Card(
-              color: Theme.of(context).colorScheme.primary,
-              elevation: 5,
-              child: const Text(
-                'Gráfico',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
+          Chart(recentTransactions: _recentTransactions),
           TransactionList(transactions: _transactions),
         ]),
       ),
@@ -128,6 +152,12 @@ class ExpensesApp extends StatelessWidget {
             fontSize: 12,
             fontWeight: FontWeight.normal,
             color: Colors.grey,
+          ),
+          bodySmall: const TextStyle(
+            fontFamily: 'Quicksand',
+            fontSize: 10,
+            fontWeight: FontWeight.normal,
+            color: Colors.black,
           ),
         ),
         appBarTheme: const AppBarTheme(
