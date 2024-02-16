@@ -73,7 +73,7 @@ class TransactionList extends StatelessWidget {
                       color: Theme.of(context).colorScheme.error,
                       style:
                           ButtonStyle(iconSize: MaterialStateProperty.all(20)),
-                      onPressed: () => deleteTransaction(id: ),
+                      onPressed: () => deleteTransaction(id: transaction.id),
                     ),
                   ),
                 );
