@@ -25,32 +25,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-    Transaction(
-      id: 't1',
-      title: 'Tenis',
-      value: 328.56,
-      date: DateTime.now().subtract(
-        const Duration(days: 3),
-      ),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Tenis',
-      value: 318.56,
-      date: DateTime.now().subtract(
-        const Duration(days: 2),
-      ),
-    ),
-    Transaction(
-      id: 't3',
-      title: 'Tenis',
-      value: 348.56,
-      date: DateTime.now().subtract(
-        const Duration(days: 1),
-      ),
-    ),
-  ];
+  final List<Transaction> _transactions = [];
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((transaction) {
@@ -60,12 +35,16 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addTransaction({required String title, required double value}) {
+  void _addTransaction({
+    required String title,
+    required double value,
+    required DateTime pickedDate,
+  }) {
     final newTransaction = Transaction(
         id: Random().nextDouble().toString(),
         title: title,
         value: value,
-        date: DateTime.now());
+        date: pickedDate);
 
     setState(() {
       _transactions.add(newTransaction);
@@ -74,13 +53,21 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).pop();
   }
 
+  _deleteTransaction({required String id}) {
+    setState(() {
+      _transactions.removeWhere((transaction) => transaction.id == id);
+    });
+  }
+
   void _openTransactionFormModal(
     BuildContext context,
   ) {
     showModalBottomSheet(
         context: context,
         builder: (ctx) {
-          return TransactionForm(submitNewTransaction: _addTransaction);
+          return TransactionForm(
+            submitNewTransaction: _addTransaction,
+          );
         });
   }
 
@@ -105,7 +92,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(children: [
           Chart(recentTransactions: _recentTransactions),
-          TransactionList(transactions: _transactions),
+          TransactionList(
+            transactions: _transactions,
+            deleteTransaction: _deleteTransaction,
+          ),
         ]),
       ),
       floatingActionButton: FloatingActionButton(
@@ -133,6 +123,7 @@ class ExpensesApp extends StatelessWidget {
         colorScheme: tema.colorScheme.copyWith(
           primary: Colors.blue,
           secondary: Colors.white,
+          error: Colors.grey,
         ),
         textTheme: tema.textTheme.copyWith(
           labelLarge: const TextStyle(

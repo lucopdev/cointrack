@@ -1,26 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
-  final Function({required String title, required double value})
-      submitNewTransaction;
+  final Function({
+    required String title,
+    required double value,
+    required DateTime pickedDate,
+  }) submitNewTransaction;
 
-  const TransactionForm({required this.submitNewTransaction, super.key});
+  const TransactionForm({
+    required this.submitNewTransaction,
+    super.key,
+  });
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
 }
 
 class _TransactionFormState extends State<TransactionForm> {
-  final titleController = TextEditingController();
-  final valueController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _valueController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
 
   void _submitForm() {
-    final title = titleController.text;
-    final value = double.tryParse(valueController.text) ?? 0.00;
+    final title = _titleController.text;
+    final value = double.tryParse(_valueController.text) ?? 0.00;
 
     if (title.isEmpty || value <= 0) return;
 
-    widget.submitNewTransaction(title: title, value: value);
+    widget.submitNewTransaction(
+      title: title,
+      value: value,
+      pickedDate: _selectedDate,
+    );
+  }
+
+  _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) return;
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
 
   @override
@@ -38,7 +64,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 labelStyle: Theme.of(context).textTheme.labelLarge,
               ),
               onSubmitted: (value) => _submitForm(),
-              controller: titleController,
+              controller: _titleController,
             ),
             TextField(
               style: Theme.of(context).textTheme.titleLarge,
@@ -49,22 +75,23 @@ class _TransactionFormState extends State<TransactionForm> {
                 labelText: 'Valor (R\$)',
                 labelStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              controller: valueController,
+              controller: _valueController,
             ),
-            FittedBox(
-              child: Row(
-                children: [
-                  const Text('Nenhuma data selecionada!'),
-                  TextButton(
-                    onPressed: () {},
-                    child: FittedBox(
-                        child: Text(
-                      'Selecionar Data',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    )),
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Data selecionada: ${DateFormat('dd / MM / y').format(_selectedDate)}',
+                ),
+                TextButton(
+                  onPressed: _showDatePicker,
+                  child: FittedBox(
+                      child: Text(
+                    'Selecionar Data',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  )),
+                ),
+              ],
             ),
             Container(
               alignment: Alignment.bottomRight,

@@ -10,14 +10,14 @@ class Chart extends StatelessWidget {
 
   List<Map<String, Object>> get groupedTransactions {
     return List.generate(7, (index) {
-      final weekDay = DateTime.now().subtract(Duration(days: index));
+      final DateTime _weekDay = DateTime.now().subtract(Duration(days: index));
 
       double totalSum = 0.0;
 
       for (var transaction in recentTransactions) {
-        bool sameDay = transaction.date.day == weekDay.day;
-        bool sameMonth = transaction.date.month == weekDay.month;
-        bool sameYear = transaction.date.year == weekDay.year;
+        bool sameDay = transaction.date.day == _weekDay.day;
+        bool sameMonth = transaction.date.month == _weekDay.month;
+        bool sameYear = transaction.date.year == _weekDay.year;
 
         if (sameDay && sameMonth && sameYear) {
           totalSum += transaction.value;
@@ -25,13 +25,13 @@ class Chart extends StatelessWidget {
       }
 
       return {
-        'day': DateFormat.E().format(weekDay)[0],
+        'day': DateFormat.E().format(_weekDay)[0],
         'value': totalSum,
       };
     }).reversed.toList();
   }
 
-  double get weekSumValue {
+  double get _weekSumValue {
     return groupedTransactions.fold(0.0, (double acc, item) {
       var value = item['value'] as double;
 
@@ -55,8 +55,9 @@ class Chart extends StatelessWidget {
                 child: ChartBar(
                     label: transaction['day'] as String,
                     value: transaction['value'] as double,
-                    percentage:
-                        (transaction['value'] as double) / weekSumValue));
+                    percentage: _weekSumValue != 0
+                        ? (transaction['value'] as double) / _weekSumValue
+                        : 0));
           }).toList(),
         ),
       ),
