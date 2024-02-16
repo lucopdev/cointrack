@@ -1,5 +1,5 @@
-import 'package:Cointrack/components/chart_bar.dart';
-import 'package:Cointrack/transaction.dart';
+import 'package:cointrack/components/chart_bar.dart';
+import 'package:cointrack/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

@@ -1,4 +1,4 @@
-import 'package:Cointrack/transaction.dart';
+import 'package:cointrack/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -15,7 +15,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 430,
+      height: MediaQuery.of(context).size.height * 0.6,
       child: transactions.isEmpty
           ? Container(
               margin: const EdgeInsets.only(top: 10),

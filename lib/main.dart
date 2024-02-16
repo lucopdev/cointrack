@@ -3,11 +3,11 @@ import 'dart:math';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:Cointrack/components/chart.dart';
-import 'package:Cointrack/components/transaction_form.dart';
-import 'package:Cointrack/components/transaction_list.dart';
+import 'package:cointrack/components/chart.dart';
+import 'package:cointrack/components/transaction_form.dart';
+import 'package:cointrack/components/transaction_list.dart';
 
-import 'package:Cointrack/transaction.dart';
+import 'package:cointrack/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
