@@ -25,7 +25,133 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [];
+  final List<Transaction> _transactions = [
+    Transaction(
+        id: '1',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 6))),
+    Transaction(
+        id: '2',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 6))),
+    Transaction(
+        id: '3',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 5))),
+    Transaction(
+        id: '4',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 5))),
+    Transaction(
+        id: '5',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 5))),
+    Transaction(
+        id: '6',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 5))),
+    Transaction(
+        id: '7',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 5))),
+    Transaction(
+        id: '8',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 4))),
+    Transaction(
+        id: '9',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 4))),
+    Transaction(
+        id: '10',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 4))),
+    Transaction(
+        id: '11',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 4))),
+    Transaction(
+        id: '12',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 4))),
+    Transaction(
+        id: '13',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 4))),
+    Transaction(
+        id: '14',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 3))),
+    Transaction(
+        id: '15',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 3))),
+    Transaction(
+        id: '16',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 3))),
+    Transaction(
+        id: '17',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 3))),
+    Transaction(
+        id: '18',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 2))),
+    Transaction(
+        id: '19',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 2))),
+    Transaction(
+        id: '20',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 2))),
+    Transaction(
+        id: '21',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 2))),
+    Transaction(
+        id: '22',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 2))),
+    Transaction(
+        id: '23',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 2))),
+    Transaction(
+        id: '24',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 1))),
+    Transaction(
+        id: '25',
+        title: 'blabla',
+        value: 23.67,
+        date: DateTime.now().subtract(const Duration(days: 1))),
+  ];
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((transaction) {
