@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:math';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
-import 'package:expenses/components/chart.dart';
-import 'package:expenses/components/transaction_form.dart';
-import 'package:expenses/components/transaction_list.dart';
-import 'package:expenses/transaction.dart';
+import 'package:Cointrack/components/chart.dart';
+import 'package:Cointrack/components/transaction_form.dart';
+import 'package:Cointrack/components/transaction_list.dart';
+
+import 'package:Cointrack/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -25,140 +29,47 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-    Transaction(
-        id: '1',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 6))),
-    Transaction(
-        id: '2',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 6))),
-    Transaction(
-        id: '3',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 5))),
-    Transaction(
-        id: '4',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 5))),
-    Transaction(
-        id: '5',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 5))),
-    Transaction(
-        id: '6',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 5))),
-    Transaction(
-        id: '7',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 5))),
-    Transaction(
-        id: '8',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 4))),
-    Transaction(
-        id: '9',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 4))),
-    Transaction(
-        id: '10',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 4))),
-    Transaction(
-        id: '11',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 4))),
-    Transaction(
-        id: '12',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 4))),
-    Transaction(
-        id: '13',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 4))),
-    Transaction(
-        id: '14',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 3))),
-    Transaction(
-        id: '15',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 3))),
-    Transaction(
-        id: '16',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 3))),
-    Transaction(
-        id: '17',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 3))),
-    Transaction(
-        id: '18',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 2))),
-    Transaction(
-        id: '19',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 2))),
-    Transaction(
-        id: '20',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 2))),
-    Transaction(
-        id: '21',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 2))),
-    Transaction(
-        id: '22',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 2))),
-    Transaction(
-        id: '23',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 2))),
-    Transaction(
-        id: '24',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 1))),
-    Transaction(
-        id: '25',
-        title: 'blabla',
-        value: 23.67,
-        date: DateTime.now().subtract(const Duration(days: 1))),
-  ];
+  List<Transaction> expenses = [];
+
+  _MyHomePageState() {
+    loadTransactions();
+  }
 
   List<Transaction> get _recentTransactions {
-    return _transactions.where((transaction) {
+    return expenses.where((transaction) {
       return transaction.date.isAfter(DateTime.now().subtract(
         const Duration(days: 7),
       ));
     }).toList();
+  }
+
+  Future<void> saveTransactions() async {
+    final file = await _getLocalFile();
+    final json = jsonEncode(
+        expenses.map((transaction) => transaction.toJson()).toList());
+    await file.writeAsString(json);
+  }
+
+  Future<void> loadTransactions() async {
+    try {
+      final file = await _getLocalFile();
+      final json = await file.readAsString();
+      final List<dynamic> jsonData = jsonDecode(json);
+      setState(() {
+        expenses = jsonData
+            .map((item) => Transaction.fromJson(item))
+            .toList()
+            .cast<Transaction>();
+      });
+    } catch (e) {
+      print("Erro ao carregar transações: $e");
+    }
+  }
+
+  Future<File> _getLocalFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return File('${directory.path}/data.json');
   }
 
   void _addTransaction({
@@ -173,16 +84,17 @@ class _MyHomePageState extends State<MyHomePage> {
         date: pickedDate);
 
     setState(() {
-      _transactions.add(newTransaction);
+      expenses.add(newTransaction);
     });
-
+    saveTransactions();
     Navigator.of(context).pop();
   }
 
   _deleteTransaction({required String id}) {
     setState(() {
-      _transactions.removeWhere((transaction) => transaction.id == id);
+      expenses.removeWhere((transaction) => transaction.id == id);
     });
+    saveTransactions();
   }
 
   void _openTransactionFormModal(
@@ -219,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(children: [
           Chart(recentTransactions: _recentTransactions),
           TransactionList(
-            transactions: _transactions,
+            transactions: expenses,
             deleteTransaction: _deleteTransaction,
           ),
         ]),
